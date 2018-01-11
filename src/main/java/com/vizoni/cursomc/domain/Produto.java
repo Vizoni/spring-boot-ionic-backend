@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Produto implements Serializable{
 	private static final long serialVersionUID = 1L; // numero de versão padrão
@@ -22,6 +24,8 @@ public class Produto implements Serializable{
 	private String nome;
 	private Double preco;
 	
+	@JsonBackReference
+	// omite a lista de categorias para cada produto (já q está vindo na classe categoria)
 	@ManyToMany
 //	@JoinTable(
 //			name = "PRODUTO_CATEGORIA",

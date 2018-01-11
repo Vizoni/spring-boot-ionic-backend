@@ -26,7 +26,7 @@ public class CategoriaResource {
 		a função retorna um ResponseEntity pq ele já é próprio pra requisições HTTP (traz o código, status etc)
 		o ? quer dizer q pode retornar qlqer entity */
 	public ResponseEntity<?> find(@PathVariable Integer id) {
-
+		
 		Categoria obj = service.buscar(id);
 		return ResponseEntity.ok().body(obj);
 		/* Retorna a resposta (obj) dentro do BODY do HTTP (se estiver ok) */
