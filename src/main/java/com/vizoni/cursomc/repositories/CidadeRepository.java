@@ -7,5 +7,4 @@ import com.vizoni.cursomc.domain.Cidade;
 
 @Repository
 public interface CidadeRepository extends JpaRepository<Cidade, Integer>{
-	// vai mapear a classe CATEGORIA pelo ID (integer)
 }
