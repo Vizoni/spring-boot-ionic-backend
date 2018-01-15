@@ -28,8 +28,8 @@ public class CategoriaResource {
 	 	a anotação @PathVariable é pra associar o ID de parametro com o ID do value do mapping
 		a função retorna um ResponseEntity pq ele já é próprio pra requisições HTTP (traz o código, status etc)
 		o ? quer dizer q pode retornar qlqer entity */
-	public ResponseEntity<?> find(@PathVariable Integer id) {
-		Categoria obj = service.buscar(id);
+	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
+		Categoria obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 		/* Retorna a resposta (obj) dentro do BODY do HTTP (se estiver ok) */
 	}
@@ -43,6 +43,13 @@ public class CategoriaResource {
 		 * dps concatena com o ID recebido do objeto através do buildAndExpand e converte ele para URI */
 		return ResponseEntity.created(uri).build();
 		/* retorna o created baseado na URI montada*/
+	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id) {
+		obj.setId(id);
+		obj = service.update(obj);
+		return ResponseEntity.noContent().build();
 	}
 	
 }

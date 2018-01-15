@@ -13,7 +13,7 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository repo;
 	
-	public Categoria buscar(Integer id) {
+	public Categoria find(Integer id) {
 		Categoria obj = repo.findOne(id);
 		if (obj == null) {
 			throw new ObjectNotFoundException("Objeto não encontrado! ID: " + id +
@@ -27,6 +27,14 @@ public class CategoriaService {
 		/* seta o Id como nulo para garantir que é um objeto novo
 		 * se o ID viesse preenchido, ele ATUALIZARIA com o método save, ao invés de CRIAR um novo*/
 		return repo.save(obj);
+	}
+
+	public Categoria update(Categoria obj) {
+		find(obj.getId());
+		/*chama o método FIND (lá em cima) pq se a categoria n existir, ele já retorna uma exceção*/
+		return repo.save(obj);
+		/* método SAVE do repository serve tanto para inserir quanto para atualizar
+		 * a diferença é que se o ID estiver nulo, ele cria, se já estiver preenchido, atualiza*/
 	}
 	
 }
