@@ -1,8 +1,8 @@
 package com.vizoni.cursomc.resources;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.vizoni.cursomc.domain.Categoria;
+import com.vizoni.cursomc.dto.CategoriaDTO;
 import com.vizoni.cursomc.services.CategoriaService;
 
 @RestController
@@ -57,5 +58,16 @@ public class CategoriaResource {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@RequestMapping(method=RequestMethod.GET)
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
+		List<Categoria> list = service.findAll();
+		List<CategoriaDTO> listDTO = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+		/* Passa por CADA objeto da lista através do método STREAM
+		 * executa uma arrow function ( -> ) fazendo com q para objeto (obj) seja criado uma CategoriaDTO
+		 * e depois adiciona esta nova CategoriaDTO na lista de collectors*/
+		return ResponseEntity.ok().body(listDTO);
+	}
+	
 	
 }
