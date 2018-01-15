@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -67,6 +69,19 @@ public class CategoriaResource {
 		 * executa uma arrow function ( -> ) fazendo com q para objeto (obj) seja criado uma CategoriaDTO
 		 * e depois adiciona esta nova CategoriaDTO na lista de collectors*/
 		return ResponseEntity.ok().body(listDTO);
+	}
+	
+	/* método de páginação */
+	@RequestMapping(value="/page",method=RequestMethod.GET)
+	public ResponseEntity<Page<CategoriaDTO>> findPage(
+			@RequestParam(value="page", defaultValue="0") Integer pageNumber,
+			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage,
+			@RequestParam(value="direction", defaultValue="ASC") String direction,
+			@RequestParam(value="orderBy", defaultValue="nome") String orderBy) 
+	{
+		Page<Categoria> page = service.findPage(pageNumber, linesPerPage, direction, orderBy);
+		Page<CategoriaDTO> pageDTO = page.map(obj -> new CategoriaDTO(obj));
+		return ResponseEntity.ok().body(pageDTO);
 	}
 	
 	

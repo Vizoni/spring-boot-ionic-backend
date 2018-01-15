@@ -71,6 +71,12 @@ public class CursomcApplication implements CommandLineRunner{
 	public void run(String... arg0) throws Exception {
 		Categoria cat1 = new Categoria(null, "Informática");
 		Categoria cat2 = new Categoria(null, "Escritório");
+		Categoria cat3 = new Categoria(null, "A");
+		Categoria cat4 = new Categoria(null, "B");
+		Categoria cat5 = new Categoria(null, "C");
+		Categoria cat6 = new Categoria(null, "D");
+		Categoria cat7 = new Categoria(null, "E");	
+		
 		
 		Produto p1 = new Produto(null, "Computador", 2000.00);
 		Produto p2 = new Produto(null, "Impressora", 800.00);
@@ -85,7 +91,7 @@ public class CursomcApplication implements CommandLineRunner{
 		p3.getCategorias().addAll(Arrays.asList(cat1,cat2));
 		
 		/* cria uma array para não ter q dar um SAVE de cada vez em cada categoria */
-		categoriaRepository.save(Arrays.asList(cat1,cat2));
+		categoriaRepository.save(Arrays.asList(cat1,cat2,cat3,cat4,cat5,cat6,cat7));
 		produtoRepository.save(Arrays.asList(p1,p2,p3));
 		
 		// ======================================================================
