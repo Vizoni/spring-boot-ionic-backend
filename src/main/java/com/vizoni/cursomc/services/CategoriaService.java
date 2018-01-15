@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.vizoni.cursomc.domain.Categoria;
+import com.vizoni.cursomc.dto.CategoriaDTO;
 import com.vizoni.cursomc.repositories.CategoriaRepository;
 import com.vizoni.cursomc.services.exceptions.DataIntegrityException;
 import com.vizoni.cursomc.services.exceptions.ObjectNotFoundException;
@@ -63,6 +64,11 @@ public class CategoriaService {
 	public Page<Categoria> findPage(Integer pageNumber, Integer linesPerPage, String direction, String orderBy) {
 		PageRequest pageRequest = new PageRequest(pageNumber, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
+	}
+	
+	/* cria uma categoria apartir de um objeto DTO da categoriaDTO*/
+	public Categoria fromDTO(CategoriaDTO objDTO) {
+		return new Categoria(objDTO.getId(), objDTO.getNome());
 	}
 	
 }
