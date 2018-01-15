@@ -1,10 +1,12 @@
 package com.vizoni.cursomc.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.vizoni.cursomc.domain.Categoria;
 import com.vizoni.cursomc.repositories.CategoriaRepository;
+import com.vizoni.cursomc.services.exceptions.DataIntegrityException;
 import com.vizoni.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -35,6 +37,16 @@ public class CategoriaService {
 		return repo.save(obj);
 		/* método SAVE do repository serve tanto para inserir quanto para atualizar
 		 * a diferença é que se o ID estiver nulo, ele cria, se já estiver preenchido, atualiza*/
+	}
+
+	public void delete(Integer id) {
+		find(id);
+		try {
+			repo.delete(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos!");
+		}
+		
 	}
 	
 }
