@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.vizoni.cursomc.domain.Categoria;
+import com.vizoni.cursomc.domain.Cliente;
 import com.vizoni.cursomc.dto.CategoriaDTO;
 import com.vizoni.cursomc.repositories.CategoriaRepository;
 import com.vizoni.cursomc.services.exceptions.DataIntegrityException;
@@ -38,11 +39,10 @@ public class CategoriaService {
 	}
 
 	public Categoria update(Categoria obj) {
-		find(obj.getId());
-		/*chama o método FIND (lá em cima) pq se a categoria n existir, ele já retorna uma exceção*/
-		return repo.save(obj);
-		/* método SAVE do repository serve tanto para inserir quanto para atualizar
-		 * a diferença é que se o ID estiver nulo, ele cria, se já estiver preenchido, atualiza*/
+		/* instancia o objeto a partir do banco para não sobrescrever uma categoria já existente */
+		Categoria newObj = find(obj.getId());
+		updateData(newObj, obj);
+		return repo.save(newObj);
 	}
 
 	public void delete(Integer id) {
@@ -69,6 +69,10 @@ public class CategoriaService {
 	/* cria uma categoria apartir de um objeto DTO da categoriaDTO*/
 	public Categoria fromDTO(CategoriaDTO objDTO) {
 		return new Categoria(objDTO.getId(), objDTO.getNome());
+	}
+	
+	private void updateData(Categoria newObj, Categoria obj) {
+		newObj.setNome(obj.getNome());
 	}
 	
 }

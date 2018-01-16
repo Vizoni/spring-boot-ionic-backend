@@ -32,7 +32,7 @@ public class ClienteService {
 	}
 	
 	public Cliente update(Cliente obj) {
-		/* puxa do banco para não sobrescrever um cliente já existente */
+		/* instancia o objeto a partir do banco para não sobrescrever um cliente já existente */
 		Cliente newObj = find(obj.getId());
 		updateData(newObj, obj);
 		return repo.save(newObj);
