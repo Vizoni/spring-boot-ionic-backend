@@ -2,41 +2,43 @@ package com.vizoni.cursomc.services.validation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.HandlerMapping;
 
 import com.vizoni.cursomc.domain.Cliente;
-import com.vizoni.cursomc.domain.enums.TipoCliente;
-import com.vizoni.cursomc.dto.ClienteNewDTO;
+import com.vizoni.cursomc.dto.ClienteDTO;
 import com.vizoni.cursomc.repositories.ClienteRepository;
 import com.vizoni.cursomc.resources.exceptions.FieldMessage;
-import com.vizoni.cursomc.services.validation.utils.BR;
 
-public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert, ClienteNewDTO> {
+public class ClienteUpdateValidator implements ConstraintValidator<ClienteUpdate, ClienteDTO> {
+	
+	@Autowired
+	private HttpServletRequest request;
+	
 	@Autowired
 	private ClienteRepository repo;
 	
 	@Override
-	public void initialize(ClienteInsert ann) {
+	public void initialize(ClienteUpdate ann) {
 	}
 
 	@Override
-	public boolean isValid(ClienteNewDTO objDto, ConstraintValidatorContext context) {
+	public boolean isValid(ClienteDTO objDto, ConstraintValidatorContext context) {
 		List<FieldMessage> list = new ArrayList<>();
 		// inclua os testes aqui, inserindo erros na lista
 		
-		if(objDto.getTipo().equals(TipoCliente.PESSOAFISICA.getCod()) && !BR.isValidCPF(objDto.getCpfOuCnpj())) {
-			list.add(new FieldMessage("cpfOuCnpj", "CPF inválido!"));
-		}
-		if(objDto.getTipo().equals(TipoCliente.PESSOAJURIDICA.getCod()) && !BR.isValidCNPJ(objDto.getCpfOuCnpj())) {
-			list.add(new FieldMessage("cpfOuCnpj", "CNPJ inválido!"));
-		}
+		//converte o objeto genérico para um objeto do tipo Map antes de atribuir à variável map
+		Map<String, String> map = (Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+		Integer uriId = Integer.parseInt(map.get("id"));
 		
 		Cliente aux = repo.findByEmail(objDto.getEmail());		
-		if(aux != null) {
+		if(aux != null && !aux.getId().equals(uriId)) {
 			// se tiver achado um cliente pelo email, lança exceçao de email duplicado
 			list.add(new FieldMessage("email", "Email já cadastrado!"));
 		}
