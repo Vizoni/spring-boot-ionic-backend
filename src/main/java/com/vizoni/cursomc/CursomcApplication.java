@@ -81,18 +81,40 @@ public class CursomcApplication implements CommandLineRunner{
 		Produto p1 = new Produto(null, "Computador", 2000.00);
 		Produto p2 = new Produto(null, "Impressora", 800.00);
 		Produto p3 = new Produto(null, "Mouse", 80.00);
+		Produto p4 = new Produto(null, "Lápis", 90.11);
+		Produto p5 = new Produto(null, "Caneta", 4.26);
+		Produto p6 = new Produto(null, "Mochila", 120.99);
+		Produto p7 = new Produto(null, "Mesa", 53.00);
+		Produto p8 = new Produto(null, "Garrafa", 12.50);
+		Produto p9 = new Produto(null, "Almofada", 77.00);
+		Produto p10 = new Produto(null, "Luminária", 43.99);
+		Produto p11 = new Produto(null, "DVD", 21.00);
 				
 		/* associando as categorias aos produtos, as categorias sabem seus produtos, mas não o inverso*/
 		cat1.getProdutos().addAll(Arrays.asList(p1,p2,p3));
-		cat2.getProdutos().addAll(Arrays.asList(p2));
+		cat2.getProdutos().addAll(Arrays.asList(p2,p4));
+		cat3.getProdutos().addAll(Arrays.asList(p5,p6));
+		cat4.getProdutos().addAll(Arrays.asList(p1,p2,p3,p7));
+		cat5.getProdutos().addAll(Arrays.asList(p8));
+		cat6.getProdutos().addAll(Arrays.asList(p9,p10));
+		cat2.getProdutos().addAll(Arrays.asList(p11));
 		
-		p1.getCategorias().addAll(Arrays.asList(cat1));
-		p2.getCategorias().addAll(Arrays.asList(cat2));
-		p3.getCategorias().addAll(Arrays.asList(cat1,cat2));
+		
+		p1.getCategorias().addAll(Arrays.asList(cat1, cat4));
+		p2.getCategorias().addAll(Arrays.asList(cat1, cat2, cat4));
+		p3.getCategorias().addAll(Arrays.asList(cat1, cat4));
+		p4.getCategorias().addAll(Arrays.asList(cat2));
+		p5.getCategorias().addAll(Arrays.asList(cat3));
+		p6.getCategorias().addAll(Arrays.asList(cat3));
+		p7.getCategorias().addAll(Arrays.asList(cat4));
+		p8.getCategorias().addAll(Arrays.asList(cat5));
+		p9.getCategorias().addAll(Arrays.asList(cat6));
+		p10.getCategorias().addAll(Arrays.asList(cat6));
+		p11.getCategorias().addAll(Arrays.asList(cat7));
 		
 		/* cria uma array para não ter q dar um SAVE de cada vez em cada categoria */
 		categoriaRepository.save(Arrays.asList(cat1,cat2,cat3,cat4,cat5,cat6,cat7));
-		produtoRepository.save(Arrays.asList(p1,p2,p3));
+		produtoRepository.save(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11));
 		
 		// ======================================================================
 		
